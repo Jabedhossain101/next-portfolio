@@ -9,7 +9,32 @@
 }
 
 body {
-  background-color: #0f172a; /* Dark Navy Background */
+  /* Tailwind config theke font-sans (Saira Condensed) automatic nibe */
+  @apply font-sans antialiased;
+  background-color: #020617; /* Projects/Contact section er sathe match kore ektu deep dark kora holo */
   color: #f8fafc;
-  font-family: 'Inter', sans-serif;
+}
+
+/* Custom Scrollbar for a Pro look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #22d3ee; /* Cyan color on hover */
+}
+
+/* Text Selection color */
+::selection {
+  background-color: rgba(34, 211, 238, 0.2);
+  color: #22d3ee;
 }

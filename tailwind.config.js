@@ -5,7 +5,12 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        // Body ba puro project-er default font hobe eti
+        sans: ['var(--font-saira-condensed)', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 };
