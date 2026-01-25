@@ -7,8 +7,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        // Body ba puro project-er default font hobe eti
-        sans: ['var(--font-saira-condensed)', 'sans-serif'],
+        // Eikhane amra default 'sans' font ke Sansita diye replace korlam
+        sans: ['var(--font-sansita)', 'sans-serif'],
       },
     },
   },

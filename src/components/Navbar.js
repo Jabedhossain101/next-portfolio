@@ -67,7 +67,7 @@ const Navbar = () => {
               <Zap className="text-slate-950 fill-slate-950" size={20} />
             </div>
             <span className="text-xl font-bold tracking-tighter text-white">
-              JABED<span className="text-cyan-400">.</span>DEV
+              JABED<span className="text-cyan-400"> </span>HOSSAIN
             </span>
           </motion.div>
 
