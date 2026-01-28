@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Rocket, ExternalLink, ArrowUpRight } from 'lucide-react';
+import { Github, Rocket, ArrowUpRight, Code2, Globe } from 'lucide-react';
 import { RiLiveLine } from 'react-icons/ri';
 import Link from 'next/link';
 import projects from '@/data/projects';
@@ -25,50 +25,46 @@ const Projects = () => {
     };
 
     class Particle {
-      constructor(x, y, directionX, directionY, size, color) {
+      constructor(x, y, size, speedX, speedY) {
         this.x = x;
         this.y = y;
-        this.directionX = directionX;
-        this.directionY = directionY;
         this.size = size;
-        this.color = color;
+        this.speedX = speedX;
+        this.speedY = speedY;
       }
       draw() {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.color;
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(34, 211, 238, 0.15)';
         ctx.fill();
       }
       update() {
-        if (this.x > canvas.width || this.x < 0)
-          this.directionX = -this.directionX;
-        if (this.y > canvas.height || this.y < 0)
-          this.directionY = -this.directionY;
-        this.x += this.directionX;
-        this.y += this.directionY;
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.y > canvas.height) this.y = 0;
         this.draw();
       }
     }
 
     function init() {
       particles = [];
-      let numberOfParticles = (canvas.height * canvas.width) / 15000;
-      for (let i = 0; i < numberOfParticles; i++) {
-        let size = Math.random() * 1.5 + 0.5;
-        let x = Math.random() * canvas.width;
-        let y = Math.random() * canvas.height;
-        let directionX = Math.random() * 1 - 0.5;
-        let directionY = Math.random() * 1 - 0.5;
-        let color = 'rgba(34, 211, 238, 0.2)';
-        particles.push(new Particle(x, y, directionX, directionY, size, color));
+      for (let i = 0; i < 40; i++) {
+        particles.push(
+          new Particle(
+            Math.random() * canvas.width,
+            Math.random() * canvas.height,
+            Math.random() * 2,
+            Math.random() * 0.5,
+            Math.random() * 0.5,
+          ),
+        );
       }
     }
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-      }
+      particles.forEach(p => p.update());
       animationFrameId = requestAnimationFrame(animate);
     };
 
@@ -85,60 +81,80 @@ const Projects = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-24 px-6 overflow-hidden bg-slate-800/50"
+      className="relative min-h-screen py-24 px-6 overflow-hidden bg-[#030712]"
       id="projects"
     >
+      {/* Dynamic Particle Background */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 z-0 pointer-events-none opacity-40"
+        className="absolute inset-0 z-0 pointer-events-none"
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto font-[family-name:var(--font-sansita)]">
-        <div className="text-center mb-20">
+      {/* Decorative Orbs to match Hero/About */}
+      <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-cyan-600/10 blur-[150px] rounded-full pointer-events-none" />
+
+      <div className="relative z-10 max-w-7xl mx-auto font-sansita">
+        {/* Section Header */}
+        <div className="text-center mb-24">
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-cyan-400 font-bold uppercase tracking-[0.3em] text-xs mb-4"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-widest mb-6"
           >
-            Creative Portfolio
+            <Code2 size={14} /> My Portfolio
           </motion.div>
           <motion.h2
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             className="text-5xl md:text-7xl font-black text-white leading-tight"
           >
-            Digital <span className="text-cyan-400 italic">Showcase</span>
+            Proof of{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 italic">
+              Excellence
+            </span>
           </motion.h2>
+          <p className="mt-6 text-slate-400 max-w-2xl mx-auto font-sans text-lg">
+            Navigating through complex challenges to deliver high-performance,
+            user-centric digital solutions.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           {projects.map((project, idx) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: idx * 0.1 }}
+              transition={{ duration: 0.8, delay: idx * 0.1 }}
               viewport={{ once: true }}
               onMouseEnter={() => setHoveredIndex(idx)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className="relative group bg-slate-900/60 backdrop-blur-xl rounded-[2rem] border border-white/5 overflow-hidden transition-all duration-500 hover:shadow-[0_20px_50px_rgba(34,211,238,0.1)] hover:border-cyan-500/30"
+              className="group relative"
             >
-              <div className="flex flex-col h-full">
-                {/* Image Section */}
-                <div className="relative h-72 overflow-hidden">
+              {/* Card Container */}
+              <div className="relative bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-[3rem] p-4 transition-all duration-500 group-hover:border-cyan-500/30 group-hover:shadow-[0_0_50px_rgba(34,211,238,0.1)]">
+                {/* Image Section with Overlay */}
+                <div className="relative h-80 rounded-[2.5rem] overflow-hidden">
                   <img
                     src={project.img}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-90" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-90" />
 
-                  {/* Floating Tech Badges */}
+                  {/* Status Badge */}
+                  <div className="absolute top-6 right-6 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-bold text-cyan-400 uppercase tracking-[0.2em]">
+                    Completed
+                  </div>
+
+                  {/* Tech Stack Floating */}
                   <div className="absolute bottom-6 left-8 flex flex-wrap gap-2">
-                    {project.tech.slice(0, 3).map(t => (
+                    {project.tech.map((t, i) => (
                       <span
-                        key={t}
-                        className="px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-[10px] font-bold text-white uppercase tracking-wider"
+                        key={i}
+                        className="px-4 py-1.5 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 text-[10px] font-bold text-white uppercase tracking-widest font-sans"
                       >
                         {t}
                       </span>
@@ -147,43 +163,50 @@ const Projects = () => {
                 </div>
 
                 {/* Content Section */}
-                <div className="p-10 pt-6 flex flex-col justify-between flex-grow">
-                  <div>
-                    <h3 className="text-3xl font-black text-white mb-4 group-hover:text-cyan-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-slate-400 text-lg leading-relaxed line-clamp-3 mb-8">
-                      {project.desc}
-                    </p>
-                  </div>
+                <div className="p-8 pt-10">
+                  <h3 className="text-3xl md:text-4xl font-black text-white mb-4 group-hover:text-cyan-400 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-slate-400 text-lg leading-relaxed font-sans mb-10 line-clamp-3">
+                    {project.desc}
+                  </p>
 
-                  <div className="flex items-center justify-between mt-auto">
+                  <div className="flex items-center justify-between">
                     <div className="flex gap-4">
-                      <a
+                      <motion.a
                         href={project.link}
                         target="_blank"
-                        className="flex items-center gap-2 px-6 py-3 bg-cyan-500 text-slate-900 rounded-xl font-black text-sm uppercase tracking-tighter hover:bg-white transition-all transform hover:-translate-y-1 shadow-lg shadow-cyan-500/20"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center gap-2 px-6 py-3.5 bg-cyan-500 text-[#030712] rounded-2xl font-black text-xs uppercase tracking-tighter hover:bg-white transition-all shadow-xl shadow-cyan-500/20"
                       >
-                        <RiLiveLine size={18} /> Live Demo
-                      </a>
-                      <a
+                        <Globe size={16} /> Live Demo
+                      </motion.a>
+                      <motion.a
                         href={project.gitLink}
                         target="_blank"
-                        className="p-3 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-all border border-white/10"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="p-3.5 bg-slate-800 text-white rounded-2xl hover:bg-slate-700 transition-all border border-white/10"
                       >
                         <Github size={20} />
-                      </a>
+                      </motion.a>
                     </div>
 
                     <Link
                       href={`/projects/${project.id}`}
-                      className="w-12 h-12 flex items-center justify-center rounded-full border border-white/10 text-slate-400 hover:text-cyan-400 hover:border-cyan-400 transition-all group/arrow"
+                      className="group/arrow flex items-center justify-center w-14 h-14 rounded-full border border-white/10 text-slate-400 hover:text-cyan-400 hover:border-cyan-400 transition-all duration-300"
                     >
-                      <ArrowUpRight className="group-hover/arrow:translate-x-0.5 group-hover/arrow:-translate-y-0.5 transition-transform" />
+                      <ArrowUpRight className="group-hover/arrow:translate-x-1 group-hover/arrow:-translate-y-1 transition-transform" />
                     </Link>
                   </div>
                 </div>
               </div>
+
+              {/* Unique Shadow Behind Card on Hover */}
+              <div
+                className={`absolute -inset-4 bg-gradient-to-tr from-cyan-500/20 to-blue-500/20 blur-3xl -z-10 rounded-[4rem] transition-opacity duration-500 ${hoveredIndex === idx ? 'opacity-100' : 'opacity-0'}`}
+              />
             </motion.div>
           ))}
         </div>

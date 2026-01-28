@@ -158,7 +158,7 @@ const Contact = () => {
                 <input
                   type="text"
                   required
-                  placeholder="John Doe"
+                  placeholder="Your Name"
                   className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all"
                   onChange={e =>
                     setFormData({ ...formData, name: e.target.value })
@@ -172,7 +172,7 @@ const Contact = () => {
                 <input
                   type="email"
                   required
-                  placeholder="example@gmail.com"
+                  placeholder="Enter your email"
                   className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all"
                   onChange={e =>
                     setFormData({ ...formData, email: e.target.value })
