@@ -31,7 +31,7 @@ const Footer = () => {
                 <FaTerminal className="text-slate-950" size={20} />
               </div>
               <h1 className="text-2xl font-bold text-white tracking-tighter">
-                JABED<span className="text-cyan-400">.</span>DEV
+                JABED <span className="text-cyan-400">HOSSAIN</span>
               </h1>
             </div>
             <p className="text-sm leading-relaxed max-w-xs">
