@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${sansita.variable} font-sans antialiased selection:bg-cyan-500 selection:text-white bg-[#020617] text-white`}
       >
-        <Navbar />
+        
         <main>{children}</main>
         <Footer />
       </body>

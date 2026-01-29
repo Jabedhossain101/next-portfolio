@@ -4,10 +4,12 @@ import Projects from '@/components/Projects';
 import Contact from '@/components/Contact';
 import About from '@/components/About';
 import Education from '@/components/Education';
+import Navbar from '@/components/Navbar';
 
 export default function Home() {
   return (
     <main className="px-4 pt-20">
+      <Navbar />
       <Hero />
       <About></About>
       <Skills />
