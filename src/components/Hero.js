@@ -184,7 +184,7 @@ export default function Hero() {
 
           <div className="relative z-10 p-4 bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-[3rem] shadow-2xl overflow-hidden group">
             <img
-              src="https://i.ibb.co.com/0jPc1ttD/boss.png"
+              src="https://i.ibb.co.com/rfLN1hWN/jero.jpg"
               alt="Jabed Hossain"
               className="w-72 md:w-[450px] rounded-[2.5rem] object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
             />

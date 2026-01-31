@@ -47,7 +47,7 @@ const About = () => {
           >
             <div className="relative z-10 p-2 bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-[3rem] overflow-hidden group shadow-2xl">
               <img
-                src="https://i.ibb.co.com/0jPc1ttD/boss.png"
+                src="https://i.ibb.co.com/7x1dM3VT/DSC04383.jpg"
                 alt="About Jabed"
                 className="w-full h-[500px] object-cover rounded-[2.5rem] opacity-80 group-hover:opacity-100 transition-opacity duration-500"
               />
