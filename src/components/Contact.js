@@ -80,7 +80,7 @@ const Contact = () => {
             </h2>
           </div>
           <div className="lg:col-span-4 pb-4">
-            <p className="text-slate-500 text-sm leading-relaxed uppercase tracking-widest border-l border-slate-800 pl-6">
+            <p className="text-slate-400 text-sm leading-relaxed uppercase tracking-widest border-l border-slate-700 pl-6">
               Ready to architect the next generation of digital products? Drop a
               transmission below.
             </p>
@@ -99,7 +99,7 @@ const Contact = () => {
               <h3 className="text-xs font-black text-slate-500 uppercase tracking-[0.4em]">
                 Node Details
               </h3>
-              <div className="grid gap-px bg-slate-800/20 border border-slate-800/50">
+              <div className="grid gap-px bg-slate-800/30 border border-slate-800/50">
                 {[
                   {
                     icon: <Mail size={18} />,
@@ -123,16 +123,16 @@ const Contact = () => {
                   <a
                     key={i}
                     href={item.link}
-                    className="flex items-center gap-6 p-6 bg-[#050505] hover:bg-white/[0.02] transition-colors group"
+                    className="flex items-center gap-6 p-6 bg-[#050505] hover:bg-white/[0.03] transition-colors group"
                   >
-                    <div className="text-slate-600 group-hover:text-violet-400 transition-colors">
+                    <div className="text-slate-400 group-hover:text-violet-400 transition-colors">
                       {item.icon}
                     </div>
                     <div>
-                      <p className="text-[9px] font-black text-slate-700 uppercase tracking-widest mb-1">
+                      <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">
                         {item.label}
                       </p>
-                      <p className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
+                      <p className="text-sm font-medium text-slate-200 group-hover:text-white transition-colors">
                         {item.value}
                       </p>
                     </div>
@@ -142,7 +142,7 @@ const Contact = () => {
             </div>
 
             <div className="space-y-6">
-              <p className="text-[10px] font-black text-slate-700 uppercase tracking-[0.5em]">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.5em]">
                 Digital Presence
               </p>
               <div className="flex gap-4">
@@ -164,7 +164,7 @@ const Contact = () => {
                     key={i}
                     href={social.link}
                     target="_blank"
-                    className="w-12 h-12 flex items-center justify-center border border-white/5 bg-white/[0.02] text-slate-500 hover:text-violet-400 hover:border-violet-500/30 transition-all"
+                    className="w-12 h-12 flex items-center justify-center border border-white/10 bg-white/[0.03] text-slate-400 hover:text-violet-400 hover:border-violet-500/30 transition-all"
                   >
                     {social.icon}
                   </a>
@@ -178,10 +178,10 @@ const Contact = () => {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-7 bg-[#0a0a0a] border border-white/5 p-8 md:p-12 relative"
+            className="lg:col-span-7 bg-[#0a0a0a] border border-white/10 p-8 md:p-12 relative shadow-2xl"
           >
             {/* Form Decoration */}
-            <div className="absolute top-0 right-0 p-4 opacity-10">
+            <div className="absolute top-0 right-0 p-4 opacity-[0.05]">
               <MessageSquare size={120} className="text-white" />
             </div>
 
@@ -192,7 +192,7 @@ const Contact = () => {
             >
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
                     Identity
                   </label>
                   <input
@@ -200,14 +200,14 @@ const Contact = () => {
                     name="from_name"
                     required
                     placeholder="Enter full name"
-                    className="w-full px-0 py-4 bg-transparent border-b border-slate-800 text-white outline-none focus:border-violet-500 transition-all font-light placeholder:text-slate-800"
+                    className="w-full px-0 py-4 bg-transparent border-b border-slate-700 text-white outline-none focus:border-violet-500 transition-all font-normal placeholder:text-slate-600"
                     onChange={e =>
                       setFormData({ ...formData, name: e.target.value })
                     }
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
                     Electronic Mail
                   </label>
                   <input
@@ -215,7 +215,7 @@ const Contact = () => {
                     name="from_email"
                     required
                     placeholder="email@example.com"
-                    className="w-full px-0 py-4 bg-transparent border-b border-slate-800 text-white outline-none focus:border-violet-500 transition-all font-light placeholder:text-slate-800"
+                    className="w-full px-0 py-4 bg-transparent border-b border-slate-700 text-white outline-none focus:border-violet-500 transition-all font-normal placeholder:text-slate-600"
                     onChange={e =>
                       setFormData({ ...formData, email: e.target.value })
                     }
@@ -224,7 +224,7 @@ const Contact = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
                   Transmission Message
                 </label>
                 <textarea
@@ -232,7 +232,7 @@ const Contact = () => {
                   rows="4"
                   required
                   placeholder="Describe your vision or project inquiry..."
-                  className="w-full px-0 py-4 bg-transparent border-b border-slate-800 text-white outline-none focus:border-violet-500 transition-all font-light resize-none placeholder:text-slate-800"
+                  className="w-full px-0 py-4 bg-transparent border-b border-slate-700 text-white outline-none focus:border-violet-500 transition-all font-normal resize-none placeholder:text-slate-600"
                   onChange={e =>
                     setFormData({ ...formData, message: e.target.value })
                   }
@@ -251,7 +251,7 @@ const Contact = () => {
                 ) : (
                   <ArrowUpRight
                     size={18}
-                    className="text-violet-500 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+                    className="text-violet-400 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
                   />
                 )}
               </motion.button>
@@ -261,8 +261,8 @@ const Contact = () => {
       </div>
 
       {/* Side Decorative Text */}
-      <div className="absolute left-10 bottom-10 hidden 2xl:block">
-        <p className="[writing-mode:vertical-lr] text-[10px] tracking-[1em] text-slate-800 uppercase font-black">
+      <div className="absolute left-10 bottom-10 hidden 2xl:block opacity-20">
+        <p className="[writing-mode:vertical-lr] text-[10px] tracking-[1em] text-slate-400 uppercase font-black">
           COMMS // ENCRYPTED
         </p>
       </div>

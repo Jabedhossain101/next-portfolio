@@ -1,7 +1,7 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, ArrowUpRight, Code2, Globe, Layers } from 'lucide-react';
+import { Github, ArrowUpRight, Globe, Layers } from 'lucide-react';
 import Link from 'next/link';
 import projects from '@/data/projects';
 
@@ -65,10 +65,10 @@ const Projects = () => {
               <div className="relative z-10">
                 {/* Meta Header */}
                 <div className="flex justify-between items-start mb-12">
-                  <span className="text-4xl font-mono text-white/5 font-black leading-none group-hover:text-violet-500/20 transition-colors">
+                  <span className="text-4xl font-mono text-white/10 group-hover:text-violet-500/20 transition-colors font-black leading-none">
                     0{idx + 1}
                   </span>
-                  <div className="flex gap-4 opacity-40 group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-4 opacity-60 group-hover:opacity-100 transition-opacity">
                     <a
                       href={project.gitLink}
                       target="_blank"
@@ -86,21 +86,23 @@ const Projects = () => {
                   </div>
                 </div>
 
-                {/* Image Showcase (Industrial Look) */}
-                <div className="relative aspect-video mb-10 overflow-hidden bg-slate-900 border border-white/5">
+                {/* Image Showcase - Adjusted for Lightweight feel */}
+                <div className="relative aspect-video mb-10 overflow-hidden bg-slate-900 border border-white/10 shadow-2xl">
                   <img
                     src={project.img}
                     alt={project.title}
-                    className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
+                    /* Grayscale komiye deya hoyeche ebong default opacity bariye 90% kora hoyeche */
+                    className="w-full h-full object-cover grayscale-[0.2] opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
+                  {/* Gradient overlay-ti aro halka (lightweight) kora hoyeche */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent opacity-60" />
 
                   {/* Floating Tech Stack on Image */}
                   <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
                     {project.tech.slice(0, 3).map((t, i) => (
                       <span
                         key={i}
-                        className="px-3 py-1 bg-black/60 backdrop-blur-md border border-white/10 text-[9px] font-bold text-violet-300 uppercase tracking-widest"
+                        className="px-3 py-1 bg-black/40 backdrop-blur-md border border-white/10 text-[9px] font-bold text-violet-200 uppercase tracking-widest"
                       >
                         {t}
                       </span>
@@ -116,13 +118,13 @@ const Projects = () => {
                     </h3>
                     <Link href={`/projects/${project.id}`}>
                       <ArrowUpRight
-                        className="text-slate-700 group-hover:text-violet-400 group-hover/title:translate-x-1 group-hover/title:-translate-y-1 transition-all"
+                        className="text-slate-600 group-hover:text-violet-400 group-hover/title:translate-x-1 group-hover/title:-translate-y-1 transition-all duration-300"
                         size={28}
                       />
                     </Link>
                   </div>
 
-                  <p className="text-slate-500 text-lg font-light leading-relaxed line-clamp-2 group-hover:text-slate-300 transition-colors">
+                  <p className="text-slate-400 text-lg font-light leading-relaxed line-clamp-2 group-hover:text-slate-200 transition-colors duration-500">
                     {project.desc}
                   </p>
 
@@ -152,7 +154,7 @@ const Projects = () => {
         <div className="mt-20 flex justify-center">
           <motion.div
             whileHover={{ y: -5 }}
-            className="flex items-center gap-4 px-8 py-4 border border-slate-800 rounded-sm group cursor-pointer transition-colors hover:border-violet-500/50"
+            className="flex items-center gap-4 px-8 py-4 border border-slate-800 rounded-sm group cursor-pointer transition-colors hover:border-violet-500/50 shadow-lg"
           >
             <Layers
               size={18}
@@ -166,8 +168,8 @@ const Projects = () => {
       </div>
 
       {/* Side Decorative Text */}
-      <div className="absolute right-10 bottom-32 hidden 2xl:block">
-        <p className="[writing-mode:vertical-lr] text-[10px] tracking-[1em] text-slate-800 uppercase font-black">
+      <div className="absolute right-10 bottom-32 hidden 2xl:block opacity-20">
+        <p className="[writing-mode:vertical-lr] text-[10px] tracking-[1em] text-slate-400 uppercase font-black">
           Development // Archive
         </p>
       </div>

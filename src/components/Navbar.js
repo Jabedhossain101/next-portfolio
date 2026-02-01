@@ -9,7 +9,7 @@ const RESUME_URL =
 const navLinks = [
   { href: '#home', text: 'Index', num: '01' },
   { href: '#about', text: 'About', num: '02' },
-  { href: '#projects', text: 'Work', num: '03' },
+  { href: '#projects', text: 'Projects', num: '03' },
   { href: '#skills', text: 'Stack', num: '04' },
   { href: '#education', text: 'Education', num: '05' },
   { href: '#contact', text: 'Connect', num: '06' },
