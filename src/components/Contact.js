@@ -1,6 +1,7 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 import {
   Mail,
   Phone,
@@ -10,9 +11,12 @@ import {
   Linkedin,
   Facebook,
   MessageSquare,
+  Loader2,
 } from 'lucide-react';
 
 const Contact = () => {
+  const form = useRef();
+  const [isSending, setIsSending] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,9 +25,31 @@ const Contact = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // Ekhane apni EmailJS ba kono backend API integrate korte paren
-    console.log('Form Submitted:', formData);
-    alert('Message sent successfully! (Backend integration pending)');
+    setIsSending(true);
+
+    // EmailJS Integration
+    emailjs
+      .sendForm(
+        'service_71a4ius', //Service ID
+        'template_rredba8', //Template ID
+        form.current,
+        'kUTbONSZ43fSDNYxt', // Public Key
+      )
+      .then(
+        result => {
+          console.log('SUCCESS!', result.text);
+          alert('Message sent successfully! I will get back to you soon.');
+          setFormData({ name: '', email: '', message: '' });
+          e.target.reset();
+        },
+        error => {
+          console.log('FAILED...', error.text);
+          alert('Failed to send message. Please try again later.');
+        },
+      )
+      .finally(() => {
+        setIsSending(false);
+      });
   };
 
   return (
@@ -68,7 +94,6 @@ const Contact = () => {
             <h3 className="text-2xl font-bold text-white mb-6 underline decoration-cyan-500 decoration-4 underline-offset-8">
               Contact Information
             </h3>
-
             <div className="space-y-6">
               {[
                 {
@@ -80,7 +105,7 @@ const Contact = () => {
                 {
                   icon: <Phone className="text-cyan-400" />,
                   label: 'Phone',
-                  value: '+880 1XXXXXXXXX',
+                  value: '+880 1887686535',
                   link: 'tel:+8801XXXXXXXXX',
                 },
                 {
@@ -110,7 +135,6 @@ const Contact = () => {
               ))}
             </div>
 
-            {/* Social Connection */}
             <div className="pt-8">
               <p className="text-slate-500 font-mono text-sm mb-4 uppercase tracking-[0.3em]">
                 Social Profiles
@@ -150,13 +174,15 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
             className="relative p-8 md:p-12 bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-[2.5rem] shadow-2xl"
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Added 'ref' to the form */}
+            <form ref={form} onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-400 ml-2">
                   Full Name
                 </label>
                 <input
                   type="text"
+                  name="from_name" // Matches template placeholder
                   required
                   placeholder="Your Name"
                   className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all"
@@ -171,6 +197,7 @@ const Contact = () => {
                 </label>
                 <input
                   type="email"
+                  name="from_email" // Matches template placeholder
                   required
                   placeholder="Enter your email"
                   className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all"
@@ -184,6 +211,7 @@ const Contact = () => {
                   Message
                 </label>
                 <textarea
+                  name="message" // Matches template placeholder
                   rows="4"
                   required
                   placeholder="How can I help you?"
@@ -194,12 +222,21 @@ const Contact = () => {
                 />
               </div>
               <motion.button
+                disabled={isSending}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-black rounded-2xl shadow-xl shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all flex items-center justify-center gap-2 uppercase tracking-widest"
+                className={`w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-black rounded-2xl shadow-xl shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all flex items-center justify-center gap-2 uppercase tracking-widest ${isSending ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
-                Send Message <Send size={18} />
+                {isSending ? (
+                  <>
+                    Sending... <Loader2 size={18} className="animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Send Message <Send size={18} />
+                  </>
+                )}
               </motion.button>
             </form>
           </motion.div>
