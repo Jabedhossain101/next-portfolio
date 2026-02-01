@@ -84,7 +84,7 @@ const Footer = () => {
 
           {/* SYSTEM INDEX (4 Cols) */}
           <div className="lg:col-span-4">
-            <h2 className="text-[10px] font-black text-white uppercase tracking-[0.5em] mb-9 opacity-30">
+            <h2 className="text-[10px] font-black text-white uppercase tracking-[0.5em] mb-10 opacity-30">
               System Index
             </h2>
             <div className="grid grid-cols-2 gap-y-6 gap-x-12">
