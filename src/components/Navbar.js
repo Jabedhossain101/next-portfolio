@@ -22,6 +22,7 @@ const navLinks = [
   { href: '#about', icon: FaUser, text: 'About' },
   { href: '#projects', icon: FaCode, text: 'Projects' },
   { href: '#skills', icon: FaTools, text: 'Skills' },
+  { href: '#education', icon: FaTools, text: 'Education' },
   { href: '#contact', icon: FaEnvelope, text: 'Contact' },
 ];
 

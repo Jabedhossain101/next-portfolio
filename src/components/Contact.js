@@ -27,14 +27,13 @@ const Contact = () => {
     e.preventDefault();
     setIsSending(true);
 
-    // EmailJS Integration
+    // Environment Variables access kora hoyeche
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
     emailjs
-      .sendForm(
-        'service_71a4ius', //Service ID
-        'template_rredba8', //Template ID
-        form.current,
-        'kUTbONSZ43fSDNYxt', // Public Key
-      )
+      .sendForm(serviceId, templateId, form.current, publicKey)
       .then(
         result => {
           console.log('SUCCESS!', result.text);
@@ -106,7 +105,7 @@ const Contact = () => {
                   icon: <Phone className="text-cyan-400" />,
                   label: 'Phone',
                   value: '+880 1887686535',
-                  link: 'tel:+8801XXXXXXXXX',
+                  link: 'tel:+8801887686535',
                 },
                 {
                   icon: <MapPin className="text-cyan-400" />,
@@ -174,7 +173,6 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
             className="relative p-8 md:p-12 bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-[2.5rem] shadow-2xl"
           >
-            {/* Added 'ref' to the form */}
             <form ref={form} onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-400 ml-2">
@@ -182,7 +180,7 @@ const Contact = () => {
                 </label>
                 <input
                   type="text"
-                  name="from_name" // Matches template placeholder
+                  name="from_name"
                   required
                   placeholder="Your Name"
                   className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all"
@@ -197,7 +195,7 @@ const Contact = () => {
                 </label>
                 <input
                   type="email"
-                  name="from_email" // Matches template placeholder
+                  name="from_email"
                   required
                   placeholder="Enter your email"
                   className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all"
@@ -211,7 +209,7 @@ const Contact = () => {
                   Message
                 </label>
                 <textarea
-                  name="message" // Matches template placeholder
+                  name="message"
                   rows="4"
                   required
                   placeholder="How can I help you?"
