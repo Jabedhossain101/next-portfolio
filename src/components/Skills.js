@@ -1,15 +1,7 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-// Sobgulo icon react-icons theke thik bhabe import kora hoyeche
-import {
-  FaHtml5,
-  FaCss3Alt,
-  FaReact,
-  FaJava,
-  FaGitAlt,
-  FaGithub,
-} from 'react-icons/fa';
+import { FaReact, FaJava, FaGitAlt, FaGithub } from 'react-icons/fa';
 import { RiNodejsLine, RiTailwindCssFill } from 'react-icons/ri';
 import {
   SiExpress,
@@ -21,11 +13,12 @@ import {
 import { BiLogoMongodb } from 'react-icons/bi';
 import { TbBrandJavascript, TbBrandCpp } from 'react-icons/tb';
 import { VscVscode } from 'react-icons/vsc';
-import { Cpu, Layers, Terminal, Wrench } from 'lucide-react';
+import { Cpu, Layers, Terminal, Wrench, ArrowUpRight } from 'lucide-react';
 
 const categories = {
   Frontend: {
-    icon: <Layers className="text-blue-400" />,
+    num: '01',
+    icon: <Layers size={20} className="text-violet-400" />,
     skills: [
       { name: 'React', color: '#61dafb', icon: <FaReact /> },
       { name: 'Next.js', color: '#ffffff', icon: <SiNextdotjs /> },
@@ -35,7 +28,8 @@ const categories = {
     ],
   },
   Backend: {
-    icon: <Cpu className="text-green-400" />,
+    num: '02',
+    icon: <Cpu size={20} className="text-blue-400" />,
     skills: [
       { name: 'Node.js', color: '#68a063', icon: <RiNodejsLine /> },
       { name: 'Express', color: '#fff', icon: <SiExpress /> },
@@ -44,19 +38,13 @@ const categories = {
       { name: 'JWT', color: '#f0db4f', icon: <SiJsonwebtokens /> },
     ],
   },
-  Tools: {
-    icon: <Wrench className="text-orange-400" />,
-    skills: [
-      { name: 'Git', color: '#f34f29', icon: <FaGitAlt /> },
-      { name: 'GitHub', color: '#ffffff', icon: <FaGithub /> },
-      { name: 'VS Code', color: '#007acc', icon: <VscVscode /> },
-    ],
-  },
   Programming: {
-    icon: <Terminal className="text-purple-400" />,
+    num: '03',
+    icon: <Terminal size={20} className="text-fuchsia-400" />,
     skills: [
       { name: 'Java', color: '#5382a1', icon: <FaJava /> },
       { name: 'C++', color: '#00599c', icon: <TbBrandCpp /> },
+      { name: 'Git Ops', color: '#f34f29', icon: <FaGitAlt /> },
     ],
   },
 };
@@ -66,11 +54,11 @@ const TiltCard = ({ skill }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const xSpring = useSpring(x, { stiffness: 150, damping: 20 });
-  const ySpring = useSpring(y, { stiffness: 150, damping: 20 });
+  const xSpring = useSpring(x, { stiffness: 100, damping: 20 });
+  const ySpring = useSpring(y, { stiffness: 100, damping: 20 });
 
-  const rotateX = useTransform(ySpring, [-0.5, 0.5], ['15deg', '-15deg']);
-  const rotateY = useTransform(xSpring, [-0.5, 0.5], ['-10deg', '15deg']);
+  const rotateX = useTransform(ySpring, [-0.5, 0.5], ['10deg', '-10deg']);
+  const rotateY = useTransform(xSpring, [-0.5, 0.5], ['-10deg', '10deg']);
 
   const handleMove = e => {
     if (!ref.current) return;
@@ -88,21 +76,27 @@ const TiltCard = ({ skill }) => {
         y.set(0);
       }}
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-      whileHover={{ scale: 1.05 }}
-      className="relative group p-6 rounded-2xl bg-slate-900/40 backdrop-blur-xl border border-white/10 hover:border-cyan-500/50 transition-colors duration-500"
+      className="relative group bg-[#0a0a0a] border border-white/5 p-8 overflow-hidden"
     >
+      {/* Dynamic Glow Effect */}
       <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-500 rounded-full"
-        style={{ background: skill.color }}
+        className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none"
+        style={{
+          background: `radial-gradient(circle at center, ${skill.color}, transparent 70%)`,
+        }}
       />
-      <div className="relative z-10 flex flex-col items-center gap-4">
+
+      <div
+        className="relative z-10 flex flex-col items-center gap-6"
+        style={{ transform: 'translateZ(50px)' }}
+      >
         <span
-          className="text-5xl transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+          className="text-5xl opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
           style={{ color: skill.color }}
         >
           {skill.icon}
         </span>
-        <span className="text-sm font-semibold tracking-wider text-slate-300 group-hover:text-white transition-colors text-center">
+        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 group-hover:text-white transition-colors">
           {skill.name}
         </span>
       </div>
@@ -111,119 +105,98 @@ const TiltCard = ({ skill }) => {
 };
 
 const Skills = () => {
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener('resize', resize);
-    resize();
-
-    const stars = Array.from({ length: 150 }).map(() => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 1.5,
-      speed: Math.random() * 0.3 + 0.1,
-    }));
-
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-      stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-        star.y -= star.speed;
-        if (star.y < 0) star.y = canvas.height;
-      });
-      animationFrameId = requestAnimationFrame(draw);
-    };
-    draw();
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
   return (
     <section
-      className="relative min-h-screen py-24 bg-[#020617] overflow-hidden"
+      className="relative min-h-screen py-32 bg-[#050505] overflow-hidden"
       id="skills"
     >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 z-0 pointer-events-none opacity-40"
+      {/* Background Technical Grid */}
+      <div
+        className="absolute inset-0 opacity-[0.05] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+        }}
       />
 
-      {/* Background Ambient Glows */}
-      <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-purple-600/10 blur-[120px] rounded-full pointer-events-none" />
-
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <div className="text-center mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-medium mb-6 uppercase tracking-widest"
-          >
-            <Cpu size={16} /> Expertise & Stack
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-4xl md:text-6xl font-bold text-white mb-6"
-          >
-            My{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-              Tech Universe
-            </span>{' '}
-            🚀
-          </motion.h2>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg">
-            Navigating the full stack to build high-performance web applications
-            with the latest technologies.
-          </p>
+        {/* SECTION HEADER */}
+        <div className="grid lg:grid-cols-12 gap-8 mb-24 items-end">
+          <div className="lg:col-span-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-[1px] bg-violet-500" />
+              <span className="text-violet-400 text-[10px] font-black uppercase tracking-[0.4em]">
+                Stack // Technologies
+              </span>
+            </div>
+            <h2 className="text-6xl md:text-8xl font-black text-white leading-[0.85] tracking-tighter">
+              TECHNICAL <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-300 to-blue-400 italic font-light">
+                Ecosystem
+              </span>
+            </h2>
+          </div>
+          <div className="lg:col-span-4 pb-4">
+            <p className="text-slate-500 text-sm leading-relaxed uppercase tracking-widest border-l border-slate-800 pl-6">
+              Architecting modern web solutions with a curated selection of
+              industry-leading tools and frameworks.
+            </p>
+          </div>
         </div>
 
-        <div className="grid gap-16">
+        {/* SKILLS GRID BY CATEGORY */}
+        <div className="space-y-32">
           {Object.entries(categories).map(([title, content], idx) => (
             <motion.div
               key={title}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
             >
-              <div className="flex items-center gap-4 mb-8">
-                <div className="p-3 rounded-xl bg-slate-800/50 border border-white/5 shadow-inner">
-                  {content.icon}
+              {/* Category Header */}
+              <div className="flex items-center justify-between mb-12 group">
+                <div className="flex items-center gap-6">
+                  <span className="text-4xl font-mono text-white/10 group-hover:text-violet-500/30 transition-colors font-black leading-none">
+                    {content.num}
+                  </span>
+                  <div className="flex flex-col">
+                    <h3 className="text-2xl font-black text-white uppercase tracking-tighter">
+                      {title}
+                    </h3>
+                    <div className="flex items-center gap-2 mt-1">
+                      {content.icon}
+                      <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+                        Advanced Proficiency
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-bold text-slate-100 uppercase tracking-widest">
-                  {title}
-                </h3>
-                <div className="h-[1px] flex-grow bg-gradient-to-r from-slate-700 to-transparent ml-4" />
+                <div className="hidden md:block h-[1px] flex-grow mx-12 bg-slate-900" />
+                <ArrowUpRight className="text-slate-800 group-hover:text-violet-500 transition-colors" />
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+              {/* Skills Card Grid - No gap between cards for "Connected Grid" look */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 border-t border-l border-white/5">
                 {content.skills.map(skill => (
-                  <TiltCard key={skill.name} skill={skill} />
+                  <div
+                    key={skill.name}
+                    className="border-r border-b border-white/5"
+                  >
+                    <TiltCard skill={skill} />
+                  </div>
                 ))}
               </div>
             </motion.div>
           ))}
         </div>
+      </div>
+
+      {/* Vertical Title Decoration */}
+      <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden 2xl:block">
+        <p className="[writing-mode:vertical-lr] text-[10px] tracking-[1em] text-slate-800 uppercase font-black">
+          System Architecture // 2026
+        </p>
       </div>
     </section>
   );

@@ -1,163 +1,175 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, Calendar, School, MapPin } from 'lucide-react';
+import { GraduationCap, Calendar, School, ArrowUpRight } from 'lucide-react';
 
 const educationData = [
   {
+    num: '01',
     degree: 'B.Sc. in Computer Science & Engineering',
     institution: 'American International University-Bangladesh (AIUB)',
     year: '2023 - Present',
     details:
-      'Focused on software engineering, full-stack development, and participated in competitive programming contests.',
-    color: 'from-cyan-400 to-blue-500',
+      'Specializing in Software Engineering and Full-Stack Architectures. Active participant in advanced system design and competitive programming.',
+    status: 'In Progress',
+    color: 'from-violet-500 to-blue-500',
   },
   {
+    num: '02',
     degree: 'Higher Secondary Certificate (HSC)',
     institution: 'Principal Kazi Farukey College',
     year: '2020 - 2022',
     details:
-      'Studied Science with emphasis on Physics, Chemistry, and Mathematics. Achieved GPA 5.00 out of 5.00.',
-    color: 'from-blue-500 to-indigo-500',
+      'Focus on Science & Mathematics. Achieved GPA 5.00/5.00 with a foundation in analytical physics and complex calculus.',
+    status: 'Completed',
+    color: 'from-blue-500 to-fuchsia-500',
   },
   {
+    num: '03',
     degree: 'Secondary School Certificate (SSC)',
     institution: 'Lakshmipur Adarsha Samad Govt. High School',
     year: '2018 - 2020',
     details:
-      'Major in Science. Achieved GPA 5.00 with distinction in Mathematics and ICT.',
-    color: 'from-indigo-500 to-purple-600',
+      'Major in Science. Distinction in ICT and Mathematics. GPA 5.00/5.00.',
+    status: 'Completed',
+    color: 'from-fuchsia-500 to-violet-500',
   },
 ];
 
 const Education = () => {
-  const canvasRef = useRef(null);
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener('resize', resize);
-    resize();
-
-    const particles = Array.from({ length: 30 }).map(() => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 2,
-      speedY: Math.random() * 0.3 + 0.1,
-    }));
-
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(34, 211, 238, 0.2)';
-      particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-        p.y -= p.speedY;
-        if (p.y < 0) p.y = canvas.height;
-      });
-      animationFrameId = requestAnimationFrame(draw);
-    };
-    draw();
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
   return (
     <section
-      ref={containerRef}
-      className="relative py-24 px-4 sm:px-6 bg-[#020617] overflow-hidden"
+      className="relative py-32 px-6 bg-[#050505] overflow-hidden"
       id="education"
     >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 z-0 pointer-events-none opacity-30"
+      {/* Background Technical Grid */}
+      <div
+        className="absolute inset-0 opacity-[0.05] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+        }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto font-[family-name:var(--font-sansita)]">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-widest mb-6"
-          >
-            <GraduationCap size={14} /> Journey
-          </motion.div>
-          <h2 className="text-4xl md:text-6xl font-black text-white">
-            Academic <span className="text-cyan-400 italic">Timeline</span>
-          </h2>
-        </div>
+      {/* Subtle Ambient Glow */}
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none" />
 
-        {/* Timeline Container */}
-        <div className="relative">
-          {/* Central Line (Visible only on Desktop) */}
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-[2px] bg-gradient-to-b from-cyan-500/50 via-blue-500/20 to-transparent" />
-
-          <div className="space-y-12">
-            {educationData.map((edu, idx) => (
-              <div
-                key={idx}
-                className={`flex flex-col md:flex-row items-center justify-between w-full ${idx % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
-              >
-                {/* 1. Empty Box for Balance (Desktop Only) */}
-                <div className="hidden md:block w-[45%]" />
-
-                {/* 2. Timeline Circle (Desktop Only) */}
-                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-slate-900 border-4 border-cyan-500 items-center justify-center z-20 shadow-[0_0_15px_rgba(34,211,238,0.5)]">
-                  <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-                </div>
-
-                {/* 3. Education Card */}
-                <motion.div
-                  initial={{ opacity: 0, x: idx % 2 === 0 ? 50 : -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.7, ease: 'easeOut' }}
-                  className="w-full md:w-[45%] relative group"
-                >
-                  <div className="p-8 bg-slate-900/60 backdrop-blur-xl border border-white/5 rounded-[2rem] hover:border-cyan-500/30 transition-all duration-500 shadow-xl group-hover:shadow-cyan-500/5">
-                    {/* Year Tag */}
-                    <div
-                      className={`inline-flex items-center gap-2 px-4 py-1 rounded-full bg-gradient-to-r ${edu.color} text-slate-950 text-xs font-black mb-6 shadow-lg`}
-                    >
-                      <Calendar size={14} /> {edu.year}
-                    </div>
-
-                    <h3 className="text-2xl md:text-3xl font-black text-white mb-3 group-hover:text-cyan-400 transition-colors">
-                      {edu.degree}
-                    </h3>
-
-                    <div className="flex items-start gap-2 text-slate-300 text-sm mb-6 opacity-80">
-                      <School size={18} className="text-cyan-500 shrink-0" />
-                      <span className="font-bold">{edu.institution}</span>
-                    </div>
-
-                    <p className="text-slate-400 text-base leading-relaxed">
-                      {edu.details}
-                    </p>
-
-                    {/* Bottom Accent Line */}
-                    <div
-                      className={`absolute bottom-0 left-8 right-8 h-[2px] bg-gradient-to-r ${edu.color} opacity-0 group-hover:opacity-100 transition-opacity`}
-                    />
-                  </div>
-                </motion.div>
-              </div>
-            ))}
+      <div className="relative z-10 max-w-7xl mx-auto">
+        {/* --- SECTION HEADER --- */}
+        <div className="grid lg:grid-cols-12 gap-8 mb-32 items-end">
+          <div className="lg:col-span-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-[1px] bg-violet-500" />
+              <span className="text-violet-400 text-[10px] font-black uppercase tracking-[0.4em]">
+                Milestones // Academic
+              </span>
+            </div>
+            <h2 className="text-6xl md:text-8xl font-black text-white leading-[0.85] tracking-tighter uppercase">
+              KNOWLEDGE <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-300 to-blue-400 italic font-light">
+                Trajectory
+              </span>
+            </h2>
+          </div>
+          <div className="lg:col-span-4 pb-4">
+            <p className="text-slate-500 text-sm leading-relaxed uppercase tracking-widest border-l border-slate-800 pl-6">
+              Documenting the intellectual journey from core foundations to
+              advanced computer science engineering.
+            </p>
           </div>
         </div>
+
+        {/* --- TIMELINE GRID --- */}
+        <div className="grid grid-cols-1 border-t border-white/5">
+          {educationData.map((edu, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: idx * 0.1 }}
+              className="group relative grid lg:grid-cols-12 gap-8 py-16 border-b border-white/5 hover:bg-white/[0.01] transition-colors duration-500"
+            >
+              {/* Year & Index (3 Cols) */}
+              <div className="lg:col-span-3 flex flex-col justify-between">
+                <div>
+                  <span className="text-4xl font-mono text-white/5 font-black group-hover:text-violet-500/20 transition-colors">
+                    {edu.num}
+                  </span>
+                  <div className="mt-4 flex items-center gap-3">
+                    <Calendar size={14} className="text-violet-400" />
+                    <span className="text-xs font-black tracking-widest text-slate-400 uppercase">
+                      {edu.year}
+                    </span>
+                  </div>
+                </div>
+                <div className="hidden lg:block">
+                  <span className="text-[10px] font-bold text-slate-700 uppercase tracking-widest">
+                    AIUB // CSE DEPT.
+                  </span>
+                </div>
+              </div>
+
+              {/* Degree & Institution (6 Cols) */}
+              <div className="lg:col-span-6 space-y-6">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span
+                      className={`w-2 h-2 rounded-full bg-gradient-to-r ${edu.color} animate-pulse`}
+                    />
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                      {edu.status}
+                    </span>
+                  </div>
+                  <h3 className="text-3xl md:text-5xl font-black text-white tracking-tighter leading-none group-hover:text-violet-400 transition-colors">
+                    {edu.degree}
+                  </h3>
+                </div>
+
+                <div className="flex items-center gap-3 text-slate-400">
+                  <School size={18} className="text-slate-600" />
+                  <span className="text-lg font-light tracking-tight group-hover:text-slate-200 transition-colors">
+                    {edu.institution}
+                  </span>
+                </div>
+
+                <p className="text-slate-500 text-lg leading-relaxed font-light max-w-xl group-hover:text-slate-400 transition-colors">
+                  {edu.details}
+                </p>
+              </div>
+
+              {/* Visual Decorative (3 Cols) */}
+              <div className="lg:col-span-3 flex lg:justify-end items-start pt-4">
+                <div className="p-4 border border-white/5 rounded-full opacity-20 group-hover:opacity-100 group-hover:border-violet-500/50 transition-all">
+                  <GraduationCap
+                    size={32}
+                    className="text-slate-500 group-hover:text-violet-400"
+                  />
+                </div>
+              </div>
+
+              {/* Hover Line Accent */}
+              <div
+                className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${edu.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* --- BOTTOM DECORATION --- */}
+        <div className="mt-20 flex flex-col items-center opacity-20">
+          <p className="text-[10px] tracking-[0.5em] text-slate-500 uppercase font-black mb-4">
+            Continuous Learning
+          </p>
+          <div className="w-[1px] h-20 bg-gradient-to-b from-slate-500 to-transparent" />
+        </div>
+      </div>
+
+      {/* Side Text Decoration */}
+      <div className="absolute right-10 top-1/2 -translate-y-1/2 hidden 2xl:block">
+        <p className="[writing-mode:vertical-lr] text-[10px] tracking-[1em] text-slate-800 uppercase font-black">
+          ACADEMIA // BLUEPRINT
+        </p>
       </div>
     </section>
   );
