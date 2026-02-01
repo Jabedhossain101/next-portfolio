@@ -1,14 +1,8 @@
 'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-  FaGithub,
-  FaLinkedin,
-  FaFacebook,
-  FaArrowUp,
-  FaTerminal,
-} from 'react-icons/fa';
-import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md';
+import { FaGithub, FaLinkedin, FaFacebook, FaTerminal } from 'react-icons/fa';
+import { ArrowUp, Cpu } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -17,27 +11,50 @@ const Footer = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navLinks = [
+    { name: 'Home', href: '#home', num: '01' },
+    { name: 'About', href: '#about', num: '02' },
+    { name: 'Work', href: '#projects', num: '03' },
+    { name: 'Stack', href: '#skills', num: '04' },
+    { name: 'Education', href: '#education', num: '05' },
+    { name: 'Connect', href: '#contact', num: '06' },
+  ];
+
   return (
-    <footer className="relative bg-[#020617] text-slate-400 pt-20 pb-10 overflow-hidden border-t border-white/5 font-sans">
-      {/* Background Subtle Light Effect */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
+    <footer className="relative bg-[#050505] text-slate-500 pt-32 pb-12 overflow-hidden border-t border-white/5">
+      {/* Background Subtle Technical Grid */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+          backgroundSize: '80px 80px',
+        }}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          {/* Brand Section */}
-          <div className="space-y-6">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/20">
-                <FaTerminal className="text-slate-950" size={20} />
+        {/* --- MAIN GRID --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-24">
+          {/* BRAND ARCHITECTURE (5 Cols) */}
+          <div className="lg:col-span-5 space-y-10">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 border border-violet-500/20 bg-white/[0.02] flex items-center justify-center">
+                <FaTerminal className="text-violet-400" size={18} />
               </div>
-              <h1 className="text-2xl font-bold text-white tracking-tighter">
-                JABED <span className="text-cyan-400">HOSSAIN</span>
-              </h1>
+              <div className="flex flex-col">
+                <span className="text-xl font-black tracking-tighter text-white uppercase italic">
+                  Jabed.
+                </span>
+                <span className="text-[10px] font-bold text-violet-500 tracking-[0.4em] uppercase font-mono">
+                  Full-Stack Architect
+                </span>
+              </div>
             </div>
-            <p className="text-sm leading-relaxed max-w-xs">
-              MERN Stack Specialist & Creative Web Engineer. Building
-              high-performance applications with elegant user experiences.
+
+            <p className="text-lg font-light leading-relaxed max-w-sm text-slate-400">
+              Designing and architecting high-performance digital systems.
+              Focused on scalability, aesthetics, and technical excellence.
             </p>
+
             <div className="flex gap-4">
               {[
                 {
@@ -57,7 +74,7 @@ const Footer = () => {
                   key={i}
                   href={social.href}
                   target="_blank"
-                  className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center hover:bg-cyan-500 hover:text-slate-950 transition-all duration-300"
+                  className="w-12 h-12 border border-white/5 bg-white/[0.02] flex items-center justify-center text-slate-500 hover:text-violet-400 hover:border-violet-500/30 transition-all duration-500"
                 >
                   {social.icon}
                 </a>
@@ -65,105 +82,89 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h2 className="text-white font-bold text-lg mb-6 uppercase tracking-widest text-sm">
-              Navigation
+          {/* SYSTEM INDEX (4 Cols) */}
+          <div className="lg:col-span-4">
+            <h2 className="text-[10px] font-black text-white uppercase tracking-[0.5em] mb-10 opacity-30">
+              System Index
             </h2>
-            <ul className="grid grid-cols-1 gap-4 text-sm font-medium">
-              {[
-                'Home',
-                'About',
-                'Projects',
-                'Skills',
-                'Education',
-                'Contact',
-              ].map(link => (
-                <li key={link}>
-                  <a
-                    href={`#${link.toLowerCase()}`}
-                    className="hover:text-cyan-400 transition-colors flex items-center gap-2 group"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 scale-0 group-hover:scale-100 transition-transform" />
-                    {link}
-                  </a>
-                </li>
+            <div className="grid grid-cols-2 gap-y-6 gap-x-12">
+              {navLinks.map(link => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="group flex items-center gap-3 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors"
+                >
+                  <span className="font-mono text-[9px] text-violet-500/40 group-hover:text-violet-400">
+                    {link.num}
+                  </span>
+                  {link.name}
+                </a>
               ))}
-            </ul>
+            </div>
           </div>
 
-          {/* Contact Information */}
-          <div>
-            <h2 className="text-white font-bold text-lg mb-6 uppercase tracking-widest text-sm">
-              Get in Touch
+          {/* STATUS PROTOCOL (3 Cols) */}
+          <div className="lg:col-span-3 space-y-10">
+            <h2 className="text-[10px] font-black text-white uppercase tracking-[0.5em] mb-10 opacity-30">
+              Status Protocol
             </h2>
-            <ul className="space-y-4 text-sm">
-              <li className="flex items-start gap-4 group">
-                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 group-hover:border-cyan-500/50 transition-colors">
-                  <MdEmail className="text-cyan-400 text-lg" />
-                </div>
-                <span className="mt-1 break-all tracking-tight">
-                  ahmedrafsan101@gmail.com
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-xs font-bold text-slate-300 tracking-wider">
+                  Available for Collaboration
                 </span>
-              </li>
-              <li className="flex items-start gap-4 group">
-                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 group-hover:border-cyan-500/50 transition-colors">
-                  <MdPhone className="text-cyan-400 text-lg" />
-                </div>
-                <span className="mt-1">01887686535</span>
-              </li>
-              <li className="flex items-start gap-4 group">
-                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 group-hover:border-cyan-500/50 transition-colors">
-                  <MdLocationOn className="text-cyan-400 text-lg" />
-                </div>
-                <span className="mt-1">Bashundhara R/A, Dhaka</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Newsletter / CTA */}
-          <div className="space-y-6">
-            <h2 className="text-white font-bold text-lg mb-6 uppercase tracking-widest text-sm">
-              Newsletter
-            </h2>
-            <p className="text-xs italic leading-relaxed">
-              Let's connect and build something extraordinary. Subscribe for
-              updates.
-            </p>
-            <div className="relative">
-              <input
-                type="email"
-                placeholder="Email Address"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-cyan-500/50 transition-all"
-              />
-              <button className="absolute right-2 top-2 bottom-2 bg-cyan-500 text-slate-950 px-3 rounded-lg text-xs font-bold hover:bg-white transition-colors">
-                Join
-              </button>
+              </div>
+              <div className="flex items-center gap-4">
+                <Cpu size={14} className="text-slate-700" />
+                <span className="text-xs font-bold text-slate-300 tracking-wider uppercase">
+                  2026 Build // V1.0
+                </span>
+              </div>
+              <motion.button
+                onClick={scrollToTop}
+                whileHover={{ x: 5 }}
+                className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-violet-400 group pt-4"
+              >
+                Back to Origin{' '}
+                <ArrowUp
+                  size={14}
+                  className="group-hover:-translate-y-1 transition-transform"
+                />
+              </motion.button>
             </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/10 to-transparent mb-10" />
+        {/* --- FINAL LOGUE --- */}
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex items-center gap-4">
+            <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest">
+              © {currentYear} Transmission
+            </span>
+            <div className="w-8 h-[1px] bg-slate-800" />
+            <span className="text-[10px] font-black text-white uppercase tracking-widest">
+              Jabed Hossain
+            </span>
+          </div>
 
-        {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-xs font-medium tracking-wide">
-            © {currentYear} <span className="text-white">Jabed Hossain</span>.
-            Crafted with <span className="text-red-500 animate-pulse">❤</span>{' '}
-            in Bangladesh.
-          </p>
-
-          <button
-            onClick={scrollToTop}
-            className="group flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-white hover:text-cyan-400 transition-colors"
-          >
-            Back to Top
-            <div className="p-2 rounded-full border border-white/10 group-hover:border-cyan-400 transition-colors">
-              <FaArrowUp size={12} />
+          <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.3em]">
+            <span className="text-slate-700">AIUB // CSE</span>
+            <div className="flex items-center gap-2">
+              <span className="text-slate-700 italic">Crafted in</span>
+              <span className="text-slate-400 underline underline-offset-4 decoration-violet-500/20 tracking-tighter">
+                Bangladesh
+              </span>
             </div>
-          </button>
+          </div>
         </div>
+      </div>
+
+      {/* Side Decorative Overlay */}
+      <div className="absolute right-0 bottom-0 p-12 opacity-[0.02] pointer-events-none select-none">
+        <h1 className="text-[200px] font-black leading-none tracking-tighter uppercase">
+          ARCHITECT
+        </h1>
       </div>
     </footer>
   );

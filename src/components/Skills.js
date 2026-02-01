@@ -78,11 +78,11 @@ const TiltCard = ({ skill }) => {
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
       className="relative group bg-[#0a0a0a] border border-white/5 p-8 overflow-hidden"
     >
-      {/* Dynamic Glow Effect */}
+      {/* Dynamic Glow Effect - Optimized for better visibility */}
       <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none"
+        className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"
         style={{
-          background: `radial-gradient(circle at center, ${skill.color}, transparent 70%)`,
+          background: `radial-gradient(circle at center, ${skill.color}, transparent 80%)`,
         }}
       />
 
@@ -90,13 +90,14 @@ const TiltCard = ({ skill }) => {
         className="relative z-10 flex flex-col items-center gap-6"
         style={{ transform: 'translateZ(50px)' }}
       >
+        {/* Changed opacity from 50 to 75 for a lightweight but visible look */}
         <span
-          className="text-5xl opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
+          className="text-5xl opacity-75 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500 drop-shadow-sm"
           style={{ color: skill.color }}
         >
           {skill.icon}
         </span>
-        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 group-hover:text-white transition-colors">
+        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 group-hover:text-white transition-colors">
           {skill.name}
         </span>
       </div>
@@ -120,7 +121,6 @@ const Skills = () => {
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-        {/* SECTION HEADER */}
         <div className="grid lg:grid-cols-12 gap-8 mb-24 items-end">
           <div className="lg:col-span-8">
             <div className="flex items-center gap-3 mb-6">
@@ -129,7 +129,7 @@ const Skills = () => {
                 Stack // Technologies
               </span>
             </div>
-            <h2 className="text-6xl md:text-8xl font-black text-white leading-[0.85] tracking-tighter">
+            <h2 className="text-6xl md:text-8xl font-black text-white leading-[0.85] tracking-tighter uppercase">
               TECHNICAL <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-300 to-blue-400 italic font-light">
                 Ecosystem
@@ -137,14 +137,13 @@ const Skills = () => {
             </h2>
           </div>
           <div className="lg:col-span-4 pb-4">
-            <p className="text-slate-500 text-sm leading-relaxed uppercase tracking-widest border-l border-slate-800 pl-6">
+            <p className="text-slate-500 text-sm leading-relaxed uppercase tracking-widest border-l border-slate-800 pl-6 font-light">
               Architecting modern web solutions with a curated selection of
               industry-leading tools and frameworks.
             </p>
           </div>
         </div>
 
-        {/* SKILLS GRID BY CATEGORY */}
         <div className="space-y-32">
           {Object.entries(categories).map(([title, content], idx) => (
             <motion.div
@@ -154,10 +153,9 @@ const Skills = () => {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
             >
-              {/* Category Header */}
               <div className="flex items-center justify-between mb-12 group">
                 <div className="flex items-center gap-6">
-                  <span className="text-4xl font-mono text-white/10 group-hover:text-violet-500/30 transition-colors font-black leading-none">
+                  <span className="text-4xl font-mono text-white/20 group-hover:text-violet-500/40 transition-colors font-black leading-none">
                     {content.num}
                   </span>
                   <div className="flex flex-col">
@@ -176,7 +174,6 @@ const Skills = () => {
                 <ArrowUpRight className="text-slate-800 group-hover:text-violet-500 transition-colors" />
               </div>
 
-              {/* Skills Card Grid - No gap between cards for "Connected Grid" look */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 border-t border-l border-white/5">
                 {content.skills.map(skill => (
                   <div
@@ -192,7 +189,6 @@ const Skills = () => {
         </div>
       </div>
 
-      {/* Vertical Title Decoration */}
       <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden 2xl:block">
         <p className="[writing-mode:vertical-lr] text-[10px] tracking-[1em] text-slate-800 uppercase font-black">
           System Architecture // 2026

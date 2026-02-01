@@ -12,6 +12,7 @@ import {
   Facebook,
   MessageSquare,
   Loader2,
+  ArrowUpRight,
 } from 'lucide-react';
 
 const Contact = () => {
@@ -27,7 +28,6 @@ const Contact = () => {
     e.preventDefault();
     setIsSending(true);
 
-    // Environment Variables access kora hoyeche
     const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
     const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
     const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
@@ -36,120 +36,127 @@ const Contact = () => {
       .sendForm(serviceId, templateId, form.current, publicKey)
       .then(
         result => {
-          console.log('SUCCESS!', result.text);
-          alert('Message sent successfully! I will get back to you soon.');
+          alert('Transmission Successful. I will contact you shortly.');
           setFormData({ name: '', email: '', message: '' });
           e.target.reset();
         },
-        error => {
-          console.log('FAILED...', error.text);
-          alert('Failed to send message. Please try again later.');
-        },
+        error => alert('Transmission Failed. Please verify your connection.'),
       )
-      .finally(() => {
-        setIsSending(false);
-      });
+      .finally(() => setIsSending(false));
   };
 
   return (
     <section
-      className="relative py-24 px-6 bg-[#020617] overflow-hidden"
+      className="relative py-32 px-6 bg-[#050505] overflow-hidden"
       id="contact"
     >
-      {/* Background Decorative Orbs */}
-      <div className="absolute top-1/2 left-[-10%] w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-5%] w-[400px] h-[400px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
+      {/* Background Technical Grid */}
+      <div
+        className="absolute inset-0 opacity-[0.05] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* Ambient Aura */}
+      <div className="absolute top-1/2 left-[-10%] w-[600px] h-[600px] bg-violet-600/5 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-medium mb-6 uppercase tracking-widest"
-          >
-            <MessageSquare size={16} /> Get In Touch
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-4xl md:text-6xl font-bold text-white mb-6"
-          >
-            Let's Build Something{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-extrabold">
-              Great Together
-            </span>
-          </motion.h2>
+        {/* --- SECTION HEADER --- */}
+        <div className="grid lg:grid-cols-12 gap-8 mb-24 items-end">
+          <div className="lg:col-span-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-[1px] bg-violet-500" />
+              <span className="text-violet-400 text-[10px] font-black uppercase tracking-[0.4em]">
+                Connection // Portal
+              </span>
+            </div>
+            <h2 className="text-6xl md:text-8xl font-black text-white leading-[0.85] tracking-tighter uppercase">
+              START A <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-300 to-blue-400 italic font-light">
+                Conversation
+              </span>
+            </h2>
+          </div>
+          <div className="lg:col-span-4 pb-4">
+            <p className="text-slate-500 text-sm leading-relaxed uppercase tracking-widest border-l border-slate-800 pl-6">
+              Ready to architect the next generation of digital products? Drop a
+              transmission below.
+            </p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left Side: Contact Info */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          {/* LEFT: INFORMATION (5 Cols) */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8"
+            viewport={{ once: true }}
+            className="lg:col-span-5 space-y-12"
           >
-            <h3 className="text-2xl font-bold text-white mb-6 underline decoration-cyan-500 decoration-4 underline-offset-8">
-              Contact Information
-            </h3>
-            <div className="space-y-6">
-              {[
-                {
-                  icon: <Mail className="text-cyan-400" />,
-                  label: 'Email',
-                  value: 'ahmedrafsan101@gmail.com',
-                  link: 'mailto:ahmedrafsan101@gmail.com',
-                },
-                {
-                  icon: <Phone className="text-cyan-400" />,
-                  label: 'Phone',
-                  value: '+880 1887686535',
-                  link: 'tel:+8801887686535',
-                },
-                {
-                  icon: <MapPin className="text-cyan-400" />,
-                  label: 'Location',
-                  value: 'Lakshmipur, Chittagong, Bangladesh',
-                  link: '#',
-                },
-              ].map((item, i) => (
-                <a
-                  key={i}
-                  href={item.link}
-                  className="flex items-center gap-4 group p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/40 transition-all"
-                >
-                  <div className="p-3 bg-cyan-500/10 rounded-xl group-hover:scale-110 transition-transform">
-                    {item.icon}
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">
-                      {item.label}
-                    </p>
-                    <p className="text-slate-200 font-medium group-hover:text-cyan-400 transition-colors">
-                      {item.value}
-                    </p>
-                  </div>
-                </a>
-              ))}
+            <div className="space-y-4">
+              <h3 className="text-xs font-black text-slate-500 uppercase tracking-[0.4em]">
+                Node Details
+              </h3>
+              <div className="grid gap-px bg-slate-800/20 border border-slate-800/50">
+                {[
+                  {
+                    icon: <Mail size={18} />,
+                    label: 'Email',
+                    value: 'ahmedrafsan101@gmail.com',
+                    link: 'mailto:ahmedrafsan101@gmail.com',
+                  },
+                  {
+                    icon: <Phone size={18} />,
+                    label: 'Secure Line',
+                    value: '+880 1887686535',
+                    link: 'tel:+8801887686535',
+                  },
+                  {
+                    icon: <MapPin size={18} />,
+                    label: 'Base Location',
+                    value: 'Dhaka, Bangladesh',
+                    link: '#',
+                  },
+                ].map((item, i) => (
+                  <a
+                    key={i}
+                    href={item.link}
+                    className="flex items-center gap-6 p-6 bg-[#050505] hover:bg-white/[0.02] transition-colors group"
+                  >
+                    <div className="text-slate-600 group-hover:text-violet-400 transition-colors">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <p className="text-[9px] font-black text-slate-700 uppercase tracking-widest mb-1">
+                        {item.label}
+                      </p>
+                      <p className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
+                        {item.value}
+                      </p>
+                    </div>
+                  </a>
+                ))}
+              </div>
             </div>
 
-            <div className="pt-8">
-              <p className="text-slate-500 font-mono text-sm mb-4 uppercase tracking-[0.3em]">
-                Social Profiles
+            <div className="space-y-6">
+              <p className="text-[10px] font-black text-slate-700 uppercase tracking-[0.5em]">
+                Digital Presence
               </p>
               <div className="flex gap-4">
                 {[
                   {
-                    icon: <Github />,
+                    icon: <Github size={20} />,
                     link: 'https://github.com/Jabedhossain101',
                   },
                   {
-                    icon: <Linkedin />,
+                    icon: <Linkedin size={20} />,
                     link: 'https://www.linkedin.com/in/mdjabedhossain12/',
                   },
                   {
-                    icon: <Facebook />,
+                    icon: <Facebook size={20} />,
                     link: 'https://www.facebook.com/mdjabedhossain27',
                   },
                 ].map((social, i) => (
@@ -157,7 +164,7 @@ const Contact = () => {
                     key={i}
                     href={social.link}
                     target="_blank"
-                    className="p-4 bg-white/5 border border-white/10 rounded-2xl text-slate-400 hover:text-cyan-400 hover:border-cyan-500/50 transition-all transform hover:-translate-y-2"
+                    className="w-12 h-12 flex items-center justify-center border border-white/5 bg-white/[0.02] text-slate-500 hover:text-violet-400 hover:border-violet-500/30 transition-all"
                   >
                     {social.icon}
                   </a>
@@ -166,79 +173,98 @@ const Contact = () => {
             </div>
           </motion.div>
 
-          {/* Right Side: Contact Form */}
+          {/* RIGHT: TRANSMISSION FORM (7 Cols) */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="relative p-8 md:p-12 bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-[2.5rem] shadow-2xl"
+            viewport={{ once: true }}
+            className="lg:col-span-7 bg-[#0a0a0a] border border-white/5 p-8 md:p-12 relative"
           >
-            <form ref={form} onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-400 ml-2">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  name="from_name"
-                  required
-                  placeholder="Your Name"
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all"
-                  onChange={e =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                />
+            {/* Form Decoration */}
+            <div className="absolute top-0 right-0 p-4 opacity-10">
+              <MessageSquare size={120} className="text-white" />
+            </div>
+
+            <form
+              ref={form}
+              onSubmit={handleSubmit}
+              className="relative z-10 space-y-8"
+            >
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">
+                    Identity
+                  </label>
+                  <input
+                    type="text"
+                    name="from_name"
+                    required
+                    placeholder="Enter full name"
+                    className="w-full px-0 py-4 bg-transparent border-b border-slate-800 text-white outline-none focus:border-violet-500 transition-all font-light placeholder:text-slate-800"
+                    onChange={e =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">
+                    Electronic Mail
+                  </label>
+                  <input
+                    type="email"
+                    name="from_email"
+                    required
+                    placeholder="email@example.com"
+                    className="w-full px-0 py-4 bg-transparent border-b border-slate-800 text-white outline-none focus:border-violet-500 transition-all font-light placeholder:text-slate-800"
+                    onChange={e =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                  />
+                </div>
               </div>
+
               <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-400 ml-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  name="from_email"
-                  required
-                  placeholder="Enter your email"
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all"
-                  onChange={e =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-400 ml-2">
-                  Message
+                <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">
+                  Transmission Message
                 </label>
                 <textarea
                   name="message"
                   rows="4"
                   required
-                  placeholder="How can I help you?"
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-white outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all resize-none"
+                  placeholder="Describe your vision or project inquiry..."
+                  className="w-full px-0 py-4 bg-transparent border-b border-slate-800 text-white outline-none focus:border-violet-500 transition-all font-light resize-none placeholder:text-slate-800"
                   onChange={e =>
                     setFormData({ ...formData, message: e.target.value })
                   }
                 />
               </div>
+
               <motion.button
                 disabled={isSending}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ gap: '24px' }}
                 type="submit"
-                className={`w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-black rounded-2xl shadow-xl shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all flex items-center justify-center gap-2 uppercase tracking-widest ${isSending ? 'opacity-70 cursor-not-allowed' : ''}`}
+                className="group flex items-center gap-4 text-[11px] font-black uppercase tracking-[0.4em] text-white pt-8"
               >
+                {isSending ? 'PROCESSING...' : 'INITIALIZE TRANSMISSION'}
                 {isSending ? (
-                  <>
-                    Sending... <Loader2 size={18} className="animate-spin" />
-                  </>
+                  <Loader2 size={16} className="animate-spin text-violet-500" />
                 ) : (
-                  <>
-                    Send Message <Send size={18} />
-                  </>
+                  <ArrowUpRight
+                    size={18}
+                    className="text-violet-500 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+                  />
                 )}
               </motion.button>
             </form>
           </motion.div>
         </div>
+      </div>
+
+      {/* Side Decorative Text */}
+      <div className="absolute left-10 bottom-10 hidden 2xl:block">
+        <p className="[writing-mode:vertical-lr] text-[10px] tracking-[1em] text-slate-800 uppercase font-black">
+          COMMS // ENCRYPTED
+        </p>
       </div>
     </section>
   );
