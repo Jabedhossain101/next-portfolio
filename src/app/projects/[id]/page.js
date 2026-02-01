@@ -1,9 +1,8 @@
 'use client';
 import React, { use } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   Github,
-  Globe,
   ArrowLeft,
   Cpu,
   Rocket,
@@ -12,7 +11,8 @@ import {
   Layout as LayoutIcon,
   Layers,
   ExternalLink,
-  ChevronRight,
+  Zap,
+  CheckCircle2,
 } from 'lucide-react';
 import Link from 'next/link';
 import projects from '@/data/projects';
@@ -21,159 +21,176 @@ import { RiLiveLine } from 'react-icons/ri';
 export default function ProjectDetails({ params }) {
   const resolvedParams = use(params);
   const project = projects.find(p => p.id.toString() === resolvedParams.id);
+  const { scrollYProgress } = useScroll();
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#020617] flex flex-col items-center justify-center text-white font-sansita">
-        <Rocket size={48} className="text-cyan-500 mb-4 animate-bounce" />
-        <h1 className="text-3xl font-black">Project Not Found</h1>
-        <Link href="/#projects" className="mt-6 text-cyan-400 underline italic">
-          Return to Galaxy
+      <div className="min-h-screen bg-[#030712] flex flex-col items-center justify-center text-white">
+        <Rocket size={48} className="text-blue-500 mb-4 animate-pulse" />
+        <h1 className="text-3xl font-bold tracking-tighter">
+          Mission Aborted: Project Not Found
+        </h1>
+        <Link
+          href="/#projects"
+          className="mt-6 px-6 py-3 bg-blue-600 rounded-full font-bold hover:bg-blue-500 transition-all"
+        >
+          Return to Base
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-200 selection:bg-cyan-500/30 selection:text-cyan-400 font-sansita">
-      {/* Dynamic Background Elements */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-cyan-600/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-600/5 blur-[120px] rounded-full" />
+    <div className="min-h-screen bg-[#030712] text-slate-300 selection:bg-blue-500/30 selection:text-blue-400">
+      {/* --- AMBIENT BACKGROUND --- */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-blue-600/10 blur-[150px] rounded-full" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-cyan-600/10 blur-[150px] rounded-full" />
       </div>
 
-      {/* Sticky Header Navigation */}
-      <nav className="sticky top-0 z-50 bg-[#020617]/80 backdrop-blur-md border-b border-white/5 px-6 py-4">
+      {/* --- NAV BAR --- */}
+      <nav className="fixed top-0 w-full z-50 bg-[#030712]/40 backdrop-blur-xl border-b border-white/5 px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link
             href="/#projects"
-            className="flex items-center gap-2 group text-sm font-bold tracking-widest text-slate-400 hover:text-white transition-all uppercase"
+            className="flex items-center gap-2 group text-xs font-bold tracking-[0.2em] text-slate-400 hover:text-white transition-all uppercase"
           >
             <ArrowLeft
-              size={18}
+              size={16}
               className="group-hover:-translate-x-1 transition-transform"
-            />{' '}
-            Back
+            />
+            Back to Portfolio
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <span className="hidden md:block text-[10px] font-bold text-slate-500 uppercase tracking-widest mr-2">
+              Quick Access —
+            </span>
             <a
               href={project.gitLink}
               target="_blank"
-              className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+              className="p-2.5 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors"
             >
-              <Github size={20} />
+              <Github size={18} />
             </a>
             <a
               href={project.link}
               target="_blank"
-              className="px-4 py-2 bg-cyan-500 text-[#020617] rounded-lg font-black text-xs uppercase flex items-center gap-2 hover:bg-white transition-all"
+              className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl font-bold text-xs uppercase flex items-center gap-2 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all"
             >
-              Live <ExternalLink size={14} />
+              Live Demo <ExternalLink size={14} />
             </a>
           </div>
         </div>
       </nav>
 
-      <main className="relative z-10 max-w-7xl mx-auto px-6 py-12">
-        {/* --- HERO SECTION --- */}
-        <section className="mb-20">
+      <main className="relative z-10 pt-32 pb-20 max-w-7xl mx-auto px-6">
+        {/* --- HEADER SECTION --- */}
+        <header className="mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8"
+            transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center gap-3 text-cyan-400 mb-4 font-black uppercase tracking-widest text-sm">
-              <Sparkles size={18} /> Project Case Study
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-6">
+              <Sparkles size={12} /> Case Study 0{project.id}
             </div>
-            <h1 className="text-5xl md:text-8xl font-black text-white leading-tight mb-6">
+            <h1 className="text-5xl md:text-8xl font-black text-white leading-[0.9] mb-8 tracking-tighter">
               {project.title.split('–')[0]}
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-500 italic mt-2">
-                {project.title.split('–')[1] || 'Web Innovation'}
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 mt-2">
+                {project.title.split('–')[1] || 'Digital Excellence'}
               </span>
             </h1>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="relative rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="relative group rounded-[2.5rem] overflow-hidden border border-white/10 bg-slate-900/50"
           >
             <img
               src={project.img}
               alt={project.title}
-              className="w-full h-auto min-h-[400px] object-cover"
+              className="w-full h-auto aspect-video object-cover transition-transform duration-1000 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-80" />
+
+            {/* Quick Specs Overlay */}
+            <div className="absolute bottom-8 left-8 right-8 flex flex-wrap gap-4">
+              {['MERN Stack', 'Next.js', 'High Performance'].map((spec, i) => (
+                <div
+                  key={i}
+                  className="px-4 py-2 bg-black/40 backdrop-blur-md border border-white/10 rounded-full text-[10px] font-bold text-white uppercase tracking-widest"
+                >
+                  {spec}
+                </div>
+              ))}
+            </div>
           </motion.div>
-        </section>
+        </header>
 
         {/* --- CONTENT GRID --- */}
-        <div className="grid lg:grid-cols-3 gap-8 items-start">
-          {/* Main Info (Col 1 & 2) */}
-          <div className="lg:col-span-2 space-y-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              className="p-10 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[3rem] space-y-6"
-            >
-              <h2 className="text-3xl font-black text-white flex items-center gap-3 italic">
-                <LayoutIcon className="text-cyan-400" /> Executive Overview
-              </h2>
-              <p className="text-slate-400 text-xl leading-relaxed font-sans font-medium">
+        <div className="grid lg:grid-cols-12 gap-10">
+          {/* Main Body (Left) */}
+          <div className="lg:col-span-8 space-y-10">
+            {/* Overview */}
+            <section className="p-8 md:p-12 bg-white/5 backdrop-blur-md border border-white/10 rounded-[3rem] shadow-2xl">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-3 bg-blue-500/20 rounded-2xl text-blue-400">
+                  <LayoutIcon size={24} />
+                </div>
+                <h2 className="text-3xl font-bold text-white tracking-tight">
+                  Executive Overview
+                </h2>
+              </div>
+              <p className="text-slate-400 text-lg md:text-xl leading-relaxed font-medium">
                 {project.desc}
               </p>
-            </motion.div>
+            </section>
 
-            {/* Challenges & Plans Bento Cards */}
+            {/* Features/Challenges Bento */}
             <div className="grid md:grid-cols-2 gap-8">
-              <motion.div
-                whileHover={{ y: -5 }}
-                className="p-8 bg-gradient-to-br from-red-500/5 to-transparent border border-red-500/10 rounded-[2.5rem] space-y-4"
-              >
-                <div className="p-3 bg-red-500/10 rounded-2xl w-fit text-red-400">
-                  <ShieldAlert size={24} />
-                </div>
-                <h3 className="text-xl font-black text-white italic">
-                  Technical Challenges
+              <div className="p-10 bg-gradient-to-br from-slate-900 to-red-950/20 border border-red-500/10 rounded-[3rem] group">
+                <ShieldAlert
+                  className="text-red-500 mb-6 group-hover:scale-110 transition-transform"
+                  size={32}
+                />
+                <h3 className="text-xl font-bold text-white mb-4 italic uppercase tracking-wider">
+                  The Hurdles
                 </h3>
-                <p className="text-sm text-slate-400 font-sans leading-relaxed">
+                <p className="text-slate-400 leading-relaxed text-sm">
                   {project.challenges}
                 </p>
-              </motion.div>
+              </div>
 
-              <motion.div
-                whileHover={{ y: -5 }}
-                className="p-8 bg-gradient-to-br from-cyan-500/5 to-transparent border border-cyan-500/10 rounded-[2.5rem] space-y-4"
-              >
-                <div className="p-3 bg-cyan-500/10 rounded-2xl w-fit text-cyan-400">
-                  <Rocket size={24} />
-                </div>
-                <h3 className="text-xl font-black text-white italic">
-                  Future Roadmap
+              <div className="p-10 bg-gradient-to-br from-slate-900 to-blue-950/20 border border-blue-500/10 rounded-[3rem] group">
+                <Rocket
+                  className="text-blue-500 mb-6 group-hover:scale-110 transition-transform"
+                  size={32}
+                />
+                <h3 className="text-xl font-bold text-white mb-4 italic uppercase tracking-wider">
+                  The Vision
                 </h3>
-                <p className="text-sm text-slate-400 font-sans leading-relaxed">
+                <p className="text-slate-400 leading-relaxed text-sm">
                   {project.futurePlans}
                 </p>
-              </motion.div>
+              </div>
             </div>
           </div>
 
-          {/* Sidebar Info (Col 3) */}
-          <aside className="space-y-8">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              className="p-8 bg-slate-900/60 backdrop-blur-xl border border-white/5 rounded-[2.5rem] sticky top-28"
-            >
-              <h3 className="text-lg font-black text-white mb-6 uppercase tracking-[0.2em] flex items-center gap-2">
-                <Layers size={18} className="text-cyan-400" /> Tech Stack
+          {/* Sidebar (Right) */}
+          <aside className="lg:col-span-4 space-y-8">
+            <div className="sticky top-32 p-8 bg-slate-900/40 backdrop-blur-2xl border border-white/10 rounded-[3rem] shadow-2xl">
+              <h3 className="text-xs font-black text-slate-400 mb-8 uppercase tracking-[0.3em] flex items-center gap-2">
+                <Layers size={14} className="text-blue-400" /> Technology Used
               </h3>
+
               <div className="flex flex-wrap gap-2 mb-10">
                 {project.tech.map((t, i) => (
                   <span
                     key={i}
-                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-slate-300 font-sans group hover:border-cyan-500/50 transition-colors"
+                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black text-slate-300 uppercase tracking-tighter hover:border-blue-500/50 hover:text-white transition-all"
                   >
                     {t}
                   </span>
@@ -184,33 +201,42 @@ export default function ProjectDetails({ params }) {
                 <a
                   href={project.link}
                   target="_blank"
-                  className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-[#020617] font-black rounded-2xl flex items-center justify-center gap-3 shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-transform"
+                  className="w-full py-5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-2xl flex items-center justify-center gap-3 shadow-lg shadow-blue-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase text-xs tracking-widest"
                 >
-                  <RiLiveLine size={20} /> Live Preview
+                  <RiLiveLine size={18} /> Launch Live App
                 </a>
                 <a
                   href={project.gitLink}
                   target="_blank"
-                  className="w-full py-4 bg-slate-800 text-white font-black rounded-2xl flex items-center justify-center gap-3 border border-white/10 hover:bg-slate-700 transition-colors"
+                  className="w-full py-5 bg-white/5 text-white font-bold rounded-2xl flex items-center justify-center gap-3 border border-white/10 hover:bg-white/10 transition-all uppercase text-xs tracking-widest"
                 >
-                  <Github size={20} /> Source Code
+                  <Github size={18} /> View Source
                 </a>
               </div>
-            </motion.div>
 
-            {/* Quote / Highlight */}
-            <div className="p-6 border-l-4 border-cyan-500 bg-cyan-500/5 rounded-r-3xl italic text-slate-400 text-sm">
-              "Every line of code in this project was written with scalability
-              and user experience in mind."
+              <div className="mt-10 pt-8 border-t border-white/5">
+                <div className="flex items-center gap-3 text-cyan-400 mb-4">
+                  <CheckCircle2 size={16} />
+                  <span className="text-[10px] font-black uppercase tracking-widest">
+                    Quality Guaranteed
+                  </span>
+                </div>
+                <p className="text-slate-500 text-xs italic leading-relaxed">
+                  "Optimized for performance, SEO, and seamless user
+                  interaction."
+                </p>
+              </div>
             </div>
           </aside>
         </div>
       </main>
 
-      {/* Footer Quote */}
-      <footer className="max-w-7xl mx-auto px-6 py-20 text-center border-t border-white/5">
-        <p className="text-slate-500 font-medium italic">
-          End of Case Study — Built by Md Jabed Hossain
+      {/* --- FOOTER --- */}
+      <footer className="py-20 text-center">
+        <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-slate-700 to-transparent mx-auto mb-10" />
+        <p className="text-slate-600 text-[10px] font-black uppercase tracking-[0.5em]">
+          Designed & Engineered by{' '}
+          <span className="text-slate-400">Jabed Hossain</span>
         </p>
       </footer>
     </div>
