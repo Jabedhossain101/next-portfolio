@@ -49,7 +49,7 @@ const Navbar = () => {
         scrolled ? 'py-3' : 'py-5'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto">
         <div
           className={`relative flex items-center justify-between p-2 rounded-2xl transition-all duration-500 ${
             scrolled
