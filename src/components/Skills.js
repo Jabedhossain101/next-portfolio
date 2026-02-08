@@ -1,7 +1,7 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { FaReact, FaJava, FaGitAlt, FaGithub } from 'react-icons/fa';
+import { FaReact, FaJava } from 'react-icons/fa';
 import { RiNodejsLine, RiTailwindCssFill } from 'react-icons/ri';
 import {
   SiExpress,
@@ -9,11 +9,18 @@ import {
   SiJsonwebtokens,
   SiRedux,
   SiNextdotjs,
+  SiTypescript,
+  SiPostgresql,
+  SiMongoose,
 } from 'react-icons/si';
-import { BiLogoMongodb } from 'react-icons/bi';
-import { TbBrandJavascript, TbBrandCpp } from 'react-icons/tb';
-import { VscVscode } from 'react-icons/vsc';
-import { Cpu, Layers, Terminal, Wrench, ArrowUpRight } from 'lucide-react';
+import { BiLogoMongodb, BiLogoPostgresql } from 'react-icons/bi';
+import {
+  TbBrandJavascript,
+  TbBrandCpp,
+  TbSql,
+  TbBrandCSharp,
+} from 'react-icons/tb';
+import { Cpu, Layers, Terminal, ArrowUpRight } from 'lucide-react';
 
 const categories = {
   Frontend: {
@@ -22,6 +29,7 @@ const categories = {
     skills: [
       { name: 'React', color: '#61dafb', icon: <FaReact /> },
       { name: 'Next.js', color: '#ffffff', icon: <SiNextdotjs /> },
+      { name: 'TypeScript', color: '#3178c6', icon: <SiTypescript /> }, // Added TypeScript
       { name: 'JavaScript', color: '#f7df1e', icon: <TbBrandJavascript /> },
       { name: 'Tailwind CSS', color: '#38bdf8', icon: <RiTailwindCssFill /> },
       { name: 'Redux', color: '#764abc', icon: <SiRedux /> },
@@ -34,6 +42,9 @@ const categories = {
       { name: 'Node.js', color: '#68a063', icon: <RiNodejsLine /> },
       { name: 'Express', color: '#fff', icon: <SiExpress /> },
       { name: 'MongoDB', color: '#4db33d', icon: <BiLogoMongodb /> },
+      { name: 'Mongoose', color: '#880000', icon: <SiMongoose /> }, // Added Mongoose
+      { name: 'PostgreSQL', color: '#336791', icon: <SiPostgresql /> }, // Added PostgreSQL
+      { name: 'SQL', color: '#f29111', icon: <TbSql /> }, // Added SQL
       { name: 'Firebase', color: '#ffa611', icon: <SiFirebase /> },
       { name: 'JWT', color: '#f0db4f', icon: <SiJsonwebtokens /> },
     ],
@@ -42,9 +53,9 @@ const categories = {
     num: '03',
     icon: <Terminal size={20} className="text-fuchsia-400" />,
     skills: [
+      { name: 'C#', color: '#239120', icon: <TbBrandCSharp /> },
       { name: 'Java', color: '#5382a1', icon: <FaJava /> },
       { name: 'C++', color: '#00599c', icon: <TbBrandCpp /> },
-      { name: 'Git Ops', color: '#f34f29', icon: <FaGitAlt /> },
     ],
   },
 };
@@ -76,7 +87,7 @@ const TiltCard = ({ skill }) => {
         y.set(0);
       }}
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-      className="relative group bg-[#0a0a0a] border border-white/5 p-6 md:p-8 overflow-hidden h-full"
+      className="relative group bg-[#0a0a0a] border border-white/5 p-6 md:p-8 overflow-hidden h-full flex flex-col items-center justify-center min-h-[140px] md:min-h-[160px]"
     >
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"
@@ -87,7 +98,7 @@ const TiltCard = ({ skill }) => {
 
       <div
         className="relative z-10 flex flex-col items-center gap-4 md:gap-6"
-        style={{ transform: 'translateZ(30px)' }} // Mobile e depth ektu komiyechi overlap erontate
+        style={{ transform: 'translateZ(30px)' }}
       >
         <span
           className="text-4xl md:text-5xl opacity-75 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
@@ -119,6 +130,7 @@ const Skills = () => {
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
+        {/* --- SECTION HEADER --- */}
         <div className="grid lg:grid-cols-12 gap-8 mb-16 md:mb-24 items-end">
           <div className="lg:col-span-8">
             <div className="flex items-center gap-3 mb-4 md:mb-6">
@@ -142,6 +154,7 @@ const Skills = () => {
           </div>
         </div>
 
+        {/* --- CATEGORIES --- */}
         <div className="space-y-20 md:space-y-32">
           {Object.entries(categories).map(([title, content], idx) => (
             <motion.div
@@ -172,8 +185,8 @@ const Skills = () => {
                 <ArrowUpRight className="text-slate-800 group-hover:text-violet-500 transition-colors shrink-0" />
               </div>
 
-              {/* Responsive Grid: 2 columns on mobile, 3 on small tablets, 5 on desktop */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 border-t border-l border-white/5">
+              {/* Skills Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 border-t border-l border-white/5">
                 {content.skills.map(skill => (
                   <div
                     key={skill.name}
@@ -188,9 +201,9 @@ const Skills = () => {
         </div>
       </div>
 
-      {/* Vertical Text - Hidden on mobile/tablet for better UX */}
-      <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden 2xl:block">
-        <p className="[writing-mode:vertical-lr] text-[10px] tracking-[1em] text-slate-800 uppercase font-black">
+      {/* Side Decoration */}
+      <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden 2xl:block opacity-20">
+        <p className="[writing-mode:vertical-lr] text-[10px] tracking-[1em] text-slate-400 uppercase font-black">
           System Architecture // 2026
         </p>
       </div>
