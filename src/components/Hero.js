@@ -5,7 +5,7 @@ import { FaGithub, FaLinkedin, FaFacebook } from 'react-icons/fa';
 import { Terminal, Cpu, Globe, ArrowUpRight } from 'lucide-react';
 
 const RESUME_URL =
-  'https://drive.google.com/file/d/1FIbJOj8h0g00rhw3W2y3D3FGJTa4Q5nH/view?usp=sharing';
+  'https://drive.google.com/file/d/1UFnYDAOd07Ibe0FbOwXRzBSyHz-y2VbH/view?usp=sharing';
 
 export default function Hero() {
   const [text, setText] = useState('');

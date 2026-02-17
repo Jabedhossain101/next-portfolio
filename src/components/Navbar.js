@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Download, Zap, ArrowUpRight } from 'lucide-react';
 
 const RESUME_URL =
-  'https://drive.google.com/file/d/1FIbJOj8h0g00rhw3W2y3D3FGJTa4Q5nH/view?usp=sharing';
+  'https://drive.google.com/file/d/1UFnYDAOd07Ibe0FbOwXRzBSyHz-y2VbH/view?usp=sharing';
 
 const navLinks = [
   { href: '#home', text: 'Index', num: '01' },
