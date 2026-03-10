@@ -137,7 +137,9 @@ export default function Hero() {
                       Co-Founder, AlgoWave
                     </h4>
                   </div>
-                  <ArrowUpRight className="text-slate-500" />
+                  <a href='https://algowavelabs.com' target='_blank' rel='noopener noreferrer'>
+                    <ArrowUpRight className="text-slate-500" />
+                  </a>
                 </div>
               </div>
             </motion.div>
